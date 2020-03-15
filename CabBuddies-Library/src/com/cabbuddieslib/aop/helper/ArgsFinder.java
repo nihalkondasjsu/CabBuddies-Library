@@ -1,25 +1,30 @@
 package com.cabbuddieslib.aop.helper;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.ui.Model;
-import org.springframework.validation.support.BindingAwareModelMap;
 
 import com.cabbuddieslib.data.exception.CustomException;
 
 public class ArgsFinder {
-
+	
 	public static <T extends Object> T findArg(Object[] args, Class<T> cls) throws CustomException {
 		System.out.println("Looking for "+cls.toString());
-		for (Object object : args) {
-			if(object == null)
-				continue;
-			System.out.println(object.getClass().toString());
-			if(cls.isInstance(object))
-				return cls.cast(object);
-		}
+		int found = findArgIndex(args, cls);
+		if(found == -1 || args[found]==null)
 		throw new CustomException("No Argument of "+cls.getName()+" type");
+		return cls.cast(args[found]);
+	}
+	
+	public static int findArgIndex(Object[] args, Class<?> cls) throws CustomException {
+		System.out.println("Looking for "+cls.toString());
+		int i=0;
+		for (Object object : args) {
+			if(object != null)
+				System.out.println(object.getClass().toString());
+			if(cls.isInstance(object))
+				return i;
+			i++;
+		}
+		return -1;
 	}
 	
 	public static HttpServletRequest getHttpServletRequest(Object[] args) {
