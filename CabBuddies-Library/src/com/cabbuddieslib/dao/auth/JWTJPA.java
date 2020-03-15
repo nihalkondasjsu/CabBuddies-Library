@@ -12,11 +12,16 @@ public interface JWTJPA extends JpaRepository<JWT, String>{
 
 	@Query("select jwt from JWT jwt where id = :id and pwd = :pwd")
 	public JWT findJWTByIdAndPwd(@Param("id")String id,@Param("pwd")String pwd);
-	
+
 	
 	@Transactional
 	@Modifying
 	@Query("delete from JWT where validTill < :expiringBy")
 	public void deleteAllJWTExpiringBy(@Param("expiringBy")Long expiringBy);
+	
+	@Transactional
+	@Modifying
+	@Query("delete from JWT where userId = :userId")
+	public void deleteAllJWTByUserId(@Param("userId")Long userId);
 	
 }

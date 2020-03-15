@@ -29,6 +29,8 @@ public class JWTManager {
 		
 		jwt.setPwd(UUID.randomUUID().toString());
 		
+		jwtJpa.deleteAllJWTByUserId(userId);
+		
 		return jwtJpa.save(jwt);
 	}
 	
@@ -55,6 +57,7 @@ public class JWTManager {
 	}
 	
 	public void saveJWT(JWT jwt) {
+		jwtJpa.deleteAllJWTByUserId(jwt.getUserId());
 		jwtJpa.save(jwt);
 	}
 	
