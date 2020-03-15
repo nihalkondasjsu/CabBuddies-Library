@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: appleapple
+Build-Jdk: 9
+Implementation-Title: CabBuddies-Library
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: CabBuddies-Library
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/CabBuddies-Library
+Created-By: Maven Integration for Eclipse
+
