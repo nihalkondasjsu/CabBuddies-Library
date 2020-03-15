@@ -1,5 +1,7 @@
 package com.cabbuddieslib.data.managers.auth;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +25,8 @@ public class JWTManager {
 		jwt.setUserId(userId);
 		
 		jwt.setValidTill(System.currentTimeMillis()+JWT.STANDARD_VALIDITY);
+		
+		jwt.setPwd(UUID.randomUUID().toString());
 		
 		return jwtJpa.save(jwt);
 	}
@@ -75,9 +79,10 @@ public class JWTManager {
 	    String jsonString="";
 		try {
 			jsonString = mapper.writeValueAsString(jwt);
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(jsonString);
 		return AESCrypto.encrypt(jsonString, true);
 	}
 	

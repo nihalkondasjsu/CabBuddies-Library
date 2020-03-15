@@ -3,6 +3,7 @@ package com.cabbuddieslib.data.user;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,6 +15,7 @@ import javax.persistence.OneToOne;
 
 import org.apache.commons.lang3.Validate;
 
+import com.cabbuddieslib.data.helper.PasswordEncryptor;
 import com.cabbuddieslib.reference.Messages;
 
 @Entity
@@ -32,6 +34,8 @@ public class UserDetails {
 	private String email;
 	
 	@Column(nullable=false)
+	
+	@Convert(converter = PasswordEncryptor.class)
 	private String password;
 	
 	private String firstName;
@@ -49,6 +53,11 @@ public class UserDetails {
 			orphanRemoval=true)
 	private UserVerifiedDetails verifiedDetails;
 
+
+	public UserDetails() {
+		verifiedDetails = new UserVerifiedDetails();
+	}
+	
 	public Long getId() {
 		return id;
 	}

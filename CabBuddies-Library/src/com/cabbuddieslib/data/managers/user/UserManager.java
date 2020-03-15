@@ -12,7 +12,8 @@ import com.cabbuddieslib.reference.Messages;
 @Component
 public class UserManager {
 
-	@Autowired(required=true)
+
+	@Autowired
 	UserJPA userJpa;
 	
 	public User registerUser(UserDetails userDetails) throws CustomException {
@@ -42,6 +43,10 @@ public class UserManager {
 		if(user.getUserDetails().getPassword().equals(userDetails.getPassword()))
 			return user;
 		throw new CustomException(Messages.Login.INCORRECT_PASSWORD);
+	}
+	
+	public User getUser(Long id) {
+		return userJpa.findById(id).get();
 	}
 	
 }

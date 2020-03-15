@@ -21,6 +21,10 @@ public class User {
 			cascade=CascadeType.ALL)
 	private UserDetails userDetails;
 
+	public User() {
+		userDetails = new UserDetails();
+	}
+	
 	public Long getId() {
 		return id;
 	}

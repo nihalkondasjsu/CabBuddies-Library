@@ -9,6 +9,8 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class JWT {
 
@@ -20,13 +22,13 @@ public class JWT {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid")
-	@Column(columnDefinition = "CHAR(32)")
+	@Column(columnDefinition = "varchar(50)",nullable=false, unique = true)
 	private String id;
 	
 
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid")
-	@Column(columnDefinition = "CHAR(32)")
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	@Column(columnDefinition = "varchar(50)",nullable=false, unique = true)
 	private String pwd;
 	
 	private String ip;
@@ -48,7 +50,7 @@ public class JWT {
 	}
 
 	public void setPwd(String pwd) {
-		this.pwd = pwd;
+		this.pwd = pwd.length()<50 ? pwd : pwd.substring(0, 50);
 	}
 
 	public String getIp() {
@@ -75,15 +77,18 @@ public class JWT {
 		this.userId = userId;
 	}
 	
+	@JsonIgnore
 	public boolean isValid(JWT jwt) {
 		return 	isUntampered(jwt) && jwt.isValid();
 	}
 	
 	
+	@JsonIgnore
 	public boolean isValid() {
 		return (this.validTill>=System.currentTimeMillis());
 	}
 	
+	@JsonIgnore
 	public boolean isUntampered(JWT jwt) {
 		return 	(this.id.equals(jwt.id)) &&
 				(this.pwd.equals(jwt.pwd)) &&
@@ -91,6 +96,7 @@ public class JWT {
 				(this.validTill.equals(jwt.validTill)) ;
 	}
 	
+	@JsonIgnore
 	public boolean isRenewable() {
 		return System.currentTimeMillis()-this.validTill<=STANDARD_RENEWAL_VALIDITY;
 	}
