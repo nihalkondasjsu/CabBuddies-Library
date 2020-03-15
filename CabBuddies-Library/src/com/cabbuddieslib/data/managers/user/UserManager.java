@@ -1,6 +1,7 @@
 package com.cabbuddieslib.data.managers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.cabbuddieslib.dao.user.UserJPA;
@@ -10,6 +11,7 @@ import com.cabbuddieslib.data.user.UserDetails;
 import com.cabbuddieslib.reference.Messages;
 
 @Component
+@DependsOn({"userJpa"})
 public class UserManager {
 
 

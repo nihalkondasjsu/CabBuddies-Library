@@ -3,6 +3,7 @@ package com.cabbuddieslib.data.managers.auth;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.cabbuddieslib.dao.auth.JWTJPA;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
+@DependsOn({"jwtJpa"})
 public class JWTManager {
 
 	@Autowired
