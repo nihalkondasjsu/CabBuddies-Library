@@ -9,6 +9,7 @@ import com.cabbuddieslib.data.exception.CustomException;
 import com.cabbuddieslib.data.user.User;
 import com.cabbuddieslib.data.user.UserDetails;
 import com.cabbuddieslib.reference.Messages;
+import com.cabbuddieslib.utils.Serialize;
 
 @Component
 public class UserManager {
@@ -40,6 +41,8 @@ public class UserManager {
 		
 		if(user==null)
 			throw new CustomException(Messages.Login.EMAIL_NOT_FOUND);
+		
+		System.out.println(Serialize.toString(user));
 		
 		if(user.getUserDetails().getPassword().equals(userDetails.getPassword()))
 			return user;
