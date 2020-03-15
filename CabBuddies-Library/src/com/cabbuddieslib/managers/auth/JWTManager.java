@@ -1,4 +1,4 @@
-package com.cabbuddieslib.data.managers.auth;
+package com.cabbuddieslib.managers.auth;
 
 import java.util.UUID;
 

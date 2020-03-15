@@ -1,4 +1,4 @@
-package com.cabbuddieslib.data.managers.user;
+package com.cabbuddieslib.managers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
