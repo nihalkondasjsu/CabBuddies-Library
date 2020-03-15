@@ -13,6 +13,7 @@ public class AESCrypto {
     private static final String LEAST_SECURE_KEY = "F66BBF8179937F5070978432B3067CD699E8B495FED4EE35582750C678816850";
     
     static private Cipher cipher(int opmode, String secretKey) throws Exception{
+    	secretKey = secretKey.substring(0, Math.min(31, secretKey.length()-1));
         if(secretKey.length() != 32) throw new RuntimeException("SecretKey length is not 32 chars");
         Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
         SecretKeySpec sk = new SecretKeySpec(secretKey.getBytes(), "AES");
@@ -25,6 +26,7 @@ public class AESCrypto {
             byte[] encrypted = cipher(Cipher.ENCRYPT_MODE, secretKey).doFinal(str.getBytes("UTF-8"));
             return new String(encorder.encode(encrypted));
         }catch(Exception e){
+        	e.printStackTrace();
             return null;
         }
     }
@@ -33,6 +35,7 @@ public class AESCrypto {
             byte[] byteStr = decorder.decode(str.getBytes());
             return new String(cipher(Cipher.DECRYPT_MODE, secretKey).doFinal(byteStr),"UTF-8");
         }catch(Exception e){
+        	e.printStackTrace();
             return null;
         }
     }
