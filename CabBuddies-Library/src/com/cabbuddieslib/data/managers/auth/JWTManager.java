@@ -14,10 +14,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
-@DependsOn({"jwtJpa"})
 public class JWTManager {
 
-	@Autowired
+	@Autowired(required=true)
 	JWTJPA jwtJpa;
 	
 	public JWT createJWT(String ip,Long userId) {

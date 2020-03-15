@@ -11,11 +11,10 @@ import com.cabbuddieslib.data.user.UserDetails;
 import com.cabbuddieslib.reference.Messages;
 
 @Component
-@DependsOn({"userJpa"})
 public class UserManager {
 
 
-	@Autowired
+	@Autowired(required=true)
 	UserJPA userJpa;
 	
 	public User registerUser(UserDetails userDetails) throws CustomException {
