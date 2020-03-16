@@ -35,6 +35,8 @@ public class JWTManager {
 	}
 	
 	public JWT renewJWT(JWT jwt,String ip) {
+		if(jwt.getIp().equals(ip)==false)
+			return null;
 		JWT jwtRes = null;
 		
 		jwtRes = jwtJpa.findJWTByIdAndPwd(jwt.getId(), jwt.getPwd());

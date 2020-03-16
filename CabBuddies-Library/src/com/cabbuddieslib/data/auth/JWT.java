@@ -102,3 +102,62 @@ public class JWT {
 	}
 	
 }
+
+/*
+ * 
+ * 
+ * c -> um: Login
+um -> umdb: validate credentials
+umdb --> um: valid credentials ( user details )
+um -> um: Create JWT
+um -> umdb: Save JWT
+um -> um: Remove UserId from JWT
+um -> um: Excrypt JWT
+um --> c: Encrypted JWT
+
+ * 
+ * 
+ * */
+
+/*
+ * 
+ * 
+ * @startuml
+participant "Client App" as c
+
+participant "Chatroom" as cr
+participant "Chatroom DB" as crdb
+
+participant "User Management" as um
+participant "User Management DB" as umdb
+
+title Using JWT for Authentication
+
+== First Interaction of Chatroom and Client App with this JWT ==
+
+c -> cr: Request with Encrypted JWT in AuthHeader
+
+cr -> crdb: validate JWT
+
+crdb --> cr: JWT not found
+
+cr -> um: validate JWT
+
+um -> umdb: validate JWT
+
+umdb --> um: Full JWT with userId
+
+um --> cr: Full JWT with userId
+
+cr --> c: Response (if authorized) 
+
+== Consequent Interactions of Chatroom and Client App with this JWT ==
+
+c -> cr: Request with Encrypted JWT in AuthHeader
+cr -> crdb: validate JWT
+crdb --> cr: Full JWT with userId
+cr --> c: Response (if authorized) 
+
+@enduml
+ * 
+ * */
