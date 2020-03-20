@@ -22,6 +22,7 @@ public class LongListConverter implements AttributeConverter<List<Long>, String>
     public List<Long> convertToEntityAttribute(String string) {
 		List<Long> list = new ArrayList<Long>();
 		for(String s:string.split(" ")) {
+			if(s.equals("")==false)
 			list.add(Long.parseLong(s));
 		}
     	return list;
