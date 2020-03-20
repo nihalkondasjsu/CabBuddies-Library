@@ -1,7 +1,6 @@
 package com.cabbuddieslib.aop.aspect;
 
 import java.util.Arrays;
-import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +9,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.cabbuddieslib.aop.helper.ArgsFinder;
@@ -19,6 +19,7 @@ import com.cabbuddieslib.managers.auth.JWTManager;
 @Aspect
 @Component
 @DependsOn({"JWTManager"})
+@Order(10)
 public class JWTValidateAspect {
 
 	@Autowired
