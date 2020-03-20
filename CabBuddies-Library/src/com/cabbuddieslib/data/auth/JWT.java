@@ -25,6 +25,7 @@ public class JWT {
 	@Column(columnDefinition = "varchar(50)",nullable=false, unique = true)
 	private String id;
 	
+	private String name;
 
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -43,6 +44,14 @@ public class JWT {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPwd() {

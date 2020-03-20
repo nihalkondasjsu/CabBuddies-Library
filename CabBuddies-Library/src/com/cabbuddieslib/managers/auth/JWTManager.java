@@ -25,11 +25,12 @@ public class JWTManager {
 	
 	public static boolean isJWTAuthority=false;
 	
-	public JWT createJWT(String ip,Long userId) {
+	public JWT createJWT(String ip,Long userId,String name) {
 		JWT jwt=new JWT();
 		
 		jwt.setIp(ip);
 		jwt.setUserId(userId);
+		jwt.setName(name);
 		
 		jwt.setValidTill(System.currentTimeMillis()+JWT.STANDARD_VALIDITY);
 		
@@ -51,7 +52,7 @@ public class JWTManager {
 			return null;
 		
 		if(jwtRes.isUntampered(jwt) && jwtRes.isRenewable())
-			return createJWT(ip,jwtRes.getUserId());
+			return createJWT(ip,jwtRes.getUserId(),jwtRes.getName());
 		
 		return null;
 	}
