@@ -96,8 +96,9 @@ public class JWTManager {
 			      .build();
 
 			  try {
-				Response response = client.newCall(request).execute();
-			    return new Gson().fromJson(response.body().toString(), JWT.class);
+				String response = client.newCall(request).execute().body().string();
+				System.out.println(response);
+			    return new Gson().fromJson(response, JWT.class);
 			  }catch (Exception e) {
 				  e.printStackTrace();
 			}
