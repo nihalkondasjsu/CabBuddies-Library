@@ -3,21 +3,27 @@ package com.cabbuddieslib.managers.auth;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.cabbuddieslib.dao.auth.JWTJPA;
 import com.cabbuddieslib.data.auth.JWT;
+import com.cabbuddieslib.discover.MicroServicesDiscovery;
 import com.cabbuddieslib.utils.AESCrypto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 @Component
 public class JWTManager {
 
 	@Autowired(required=true)
 	JWTJPA jwtJpa;
+	
+	public static boolean isJWTAuthority=false;
 	
 	public JWT createJWT(String ip,Long userId) {
 		JWT jwt=new JWT();
@@ -66,14 +72,37 @@ public class JWTManager {
 	public JWT validateJWT(JWT jwtInp) {
 		JWT jwtRes = null;
 		jwtRes = jwtJpa.findJWTByIdAndPwd(jwtInp.getId(), jwtInp.getPwd());
-		if(jwtRes==null)
-			return null;
+		if(jwtRes==null) {
+			if(isJWTAuthority)
+				return null;
+			jwtRes = fetchJWT(jwtInp);
+			if(jwtRes == null)
+				return null;
+			saveJWT(jwtRes);
+		}
 		if(jwtRes.isValid(jwtInp))
 			return jwtRes;
 		
 		return null;
 	}
 	
+	private JWT fetchJWT(JWT jwtInp) {
+		OkHttpClient client = new OkHttpClient();
+
+		Request request = new Request.Builder()
+					.header("authorization", "Bearer "+transferVersion(jwtInp))
+			      .url(MicroServicesDiscovery.USER_MANAGEMENT_SERVICE+"/validateJWT")
+			      .build();
+
+			  try {
+				Response response = client.newCall(request).execute();
+			    return new Gson().fromJson(response.body().toString(), JWT.class);
+			  }catch (Exception e) {
+				  e.printStackTrace();
+			}
+		return null;
+	}
+
 	public String clientVersion(JWT jwt) {
 		jwt.setUserId(-1l);
 		return transferVersion(jwt);
